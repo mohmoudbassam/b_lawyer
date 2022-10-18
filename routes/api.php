@@ -23,12 +23,12 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/login', [App\Http\Controllers\API\LoginController::class, 'login']);
+Route::post('/login', [App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::prefix('user')->middleware('UserAuth')->group(function () {
-    Route::get('/me', [App\Http\Controllers\API\LoginController::class, 'me']);
-    Route::get('list', [App\Http\Controllers\API\User\LawyerController::class, 'list']);
-    Route::get('type_of_lawyers', [App\Http\Controllers\API\User\LawyerController::class, 'list']);
-    Route::post('reserve', [App\Http\Controllers\API\User\LawyerController::class, 'reserve']);
+    Route::get('/me', [App\Http\Controllers\Api\LoginController::class, 'me']);
+    Route::get('list', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
+    Route::get('type_of_lawyers', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
+    Route::post('reserve', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve']);
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
     Route::middleware('LawyerAuth')->middleware('LawyerEnabled')->group(function () {
