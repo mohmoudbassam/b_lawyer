@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +45,14 @@ class LoginController extends Controller
         }
         return api(true, 200, __('api.success'))
             ->add('user', new UserCollection(auth('users')->user()))
+            ->get();
+    }
+    public function register(RegisterRequest $request)
+    {
+
+        $request['password'] = Hash::make($request['password']);
+        User::query()->create($request->all());
+        return api(true, 200, __('api.success'))
             ->get();
     }
 

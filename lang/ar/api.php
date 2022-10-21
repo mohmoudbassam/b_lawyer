@@ -14,6 +14,8 @@ return [
     '404' => 'غير موجود',
     'validation_error' => 'الرجاء التحقق من البيانات المدخلة',
     'lawyer_not_enable' => 'حسابك غير مفعل',
-    'you_can_not_reserve_on_same_day' => 'لا يمكنك حجز موعدين في نفس اليوم'
+    'you_can_not_reserve_on_same_day' => 'لا يمكنك حجز موعدين في نفس اليوم',
+    'already_canceled' => 'تم الغاء الحجز مسبقاً',
+    'can_not_cancel' => "ًلا يمكن الغاء الحجز",
 
 ];

@@ -14,4 +14,6 @@ return [
     '404' => 'Not Found',
     'validation_error' => 'Please check the entered values',
     'you_can_not_reserve_on_same_day' => 'You can not reserve on the same day',
+    'already_canceled' => 'Already Canceled',
+    'can_not_cancel' => 'Can not cancel',
 ];

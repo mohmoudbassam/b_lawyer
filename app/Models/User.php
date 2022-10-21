@@ -92,12 +92,12 @@ class User extends Authenticatable
     public function scopeWhenTypeOfLawyer($query, $type)
     {
         DB::listen(function ($query) {
-            Log::info($query->sql,$query->bindings);
+            Log::info($query->sql, $query->bindings);
         });
         return $query->when($type, function ($q) use ($type) {
-            $q->where(function ($q)use($type){
-                $q->whereHas('type_of_lawyer',function ($q)use($type){
-                    $q->where('id',$type);
+            $q->where(function ($q) use ($type) {
+                $q->whereHas('type_of_lawyer', function ($q) use ($type) {
+                    $q->where('id', $type);
                 })->orWhereHas('office_type', function ($q) use ($type) {
                     $q->whereColumn('users.id', '=', 'lawyer_office_type.lawyer_id')
                         ->where('lawyer_office_type.type_id', $type);
@@ -115,6 +115,11 @@ class User extends Authenticatable
     public function reservations()
     {
         return $this->hasMany(Reservation::class, 'user_id', 'id');
+    }
+
+    public function scopeWhereLawyerEnabled($q)
+    {
+        return $q->whereDate('enabled_to','>',now()->toDateString())->where('enabled', 1);
     }
 
 }

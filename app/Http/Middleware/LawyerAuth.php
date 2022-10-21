@@ -16,6 +16,7 @@ class LawyerAuth
      */
     public function handle(Request $request, Closure $next)
     {
+
         if (auth('users')->check() && $request->user('users')->tokenCan('users') && $request->user('users')->isLawyer())
             return $next($request);
 

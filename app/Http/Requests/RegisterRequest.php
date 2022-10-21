@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
 
-class LawyerCompleteProfile extends BaseRequest
+class RegisterRequest extends BaseRequest
 {
     public function rules()
     {
@@ -20,13 +20,16 @@ class LawyerCompleteProfile extends BaseRequest
                 Rule::unique('users', 'email')->ignore(auth('users')->id())
             ],
             'name' => [
-                'nullable',
+                'required',
                 'string',
             ],
 
             'password' => [
-                'nullable',
+                'required',
                 'string',
+            ], 'type' => [
+                'required',
+               Rule::in(['user', 'lawyer', 'office']),
             ],
 
         ];

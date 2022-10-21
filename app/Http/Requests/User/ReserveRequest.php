@@ -11,6 +11,7 @@ class ReserveRequest extends BaseRequest
 
     public function rules()
     {
+
         return [
             'lawyer_id' => [
                 'required',

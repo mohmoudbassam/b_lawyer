@@ -56,6 +56,7 @@ class AppointmentController extends Controller
     {
         $reservations = Reservation::query()
             ->where('lawyer_id', auth('users')->user()->getKey())
+            ->whenStatus(request('status'))
             ->paginate(request('per_page') ?? 10);
         return api(true, 200, __('api.success'))
             ->add('reservations', LawyerReservationResource::collection($reservations),$reservations)

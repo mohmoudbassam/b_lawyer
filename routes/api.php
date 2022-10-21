@@ -20,18 +20,22 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::post('/login', [App\Http\Controllers\Api\LoginController::class, 'login']);
+Route::post('/register', [App\Http\Controllers\Api\LoginController::class, 'register']);
 Route::prefix('user')->middleware('UserAuth')->group(function () {
     Route::get('/me', [App\Http\Controllers\Api\LoginController::class, 'me']);
     Route::get('list', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
     Route::get('type_of_lawyers', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
-    Route::post('reserve', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve']);
+    Route::get('lawyer_working_hours', [App\Http\Controllers\Api\User\LawyerController::class, 'lawyer_working_hours']);
+    Route::post('/reserve_appointment', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve_appointment']);
+    Route::get('/my_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'my_reservation']);
+    Route::post('/cancel_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'cancel_reservation']);
+    Route::post('/review_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
-    Route::middleware('LawyerAuth')->middleware('LawyerEnabled')->group(function () {
+    Route::middleware(['LawyerEnabled','LawyerAuth'])->group(function () {
+
         Route::get('/me', [LawyerAuthController::class, 'me']);
         Route::post('/complete_profile', [LawyerAuthController::class, 'complete_profile']);
         Route::post('add_workings_hours', [AppointmentController::class, 'add_workings_hours']);
@@ -51,6 +55,4 @@ Route::prefix('constants')->group(function () {
     Route::get('/cities', [ConstantsController::class, 'cities']);
     Route::get('/lawyer_types', [ConstantsController::class, 'lawyer_types']);
 });
-Route::get('test', function () {
 
-});
