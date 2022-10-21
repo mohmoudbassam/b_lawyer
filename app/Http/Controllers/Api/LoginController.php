@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisterRequest;
@@ -47,11 +48,15 @@ class LoginController extends Controller
             ->add('user', new UserCollection(auth('users')->user()))
             ->get();
     }
+
     public function register(RegisterRequest $request)
     {
 
         $request['password'] = Hash::make($request['password']);
-        User::query()->create($request->all());
+        $user = User::query()->create($request->all());
+        $user->enabled = 1;
+        $user->enabled_at = now()->addMonths(3)->toDateString();
+        $user->save();
         return api(true, 200, __('api.success'))
             ->get();
     }
