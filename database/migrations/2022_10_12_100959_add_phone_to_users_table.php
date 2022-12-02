@@ -52,6 +52,7 @@ return new class extends Migration {
                 ->onDelete('set Null')
                 ->nullable();
 
+
             $table->enum('type', ['lawyer', 'user', 'office'])->nullable();
 
         });

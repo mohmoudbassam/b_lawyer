@@ -43,12 +43,17 @@ class LawyerCollection extends JsonResource
             'whats_up' => $this->whats_up,
             'facebook' => $this->facebook,
             'reviews'=>$this->review()->avg('review') ?? 0,
+            'certificates'=>$this->review()->avg('certificates') ?? 0,
+            'experience'=>$this->review()->avg('experience') ?? 0,
+            'majors'=>$this->review()->avg('majors') ?? 0,
+            'union_bound'=>$this->review()->avg('union_bound') ?? 0,
         ];
         if ($this->access_token) {
             $data['access_token'] = $this->access_token;
         }
         if ($this->type == 'lawyer') {
             $data['identity_image'] = isset($this->identity_image) ? asset('storage/' . $this->identity_image) : '';
+            $data['identity_number'] = $this->identity_number;
         }
         if ($this->type == 'office') {
             $data['license_number'] = $this->license_number;
