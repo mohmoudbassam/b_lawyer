@@ -31,6 +31,9 @@ class RegisterRequest extends BaseRequest
                 'required',
                Rule::in(['user', 'lawyer', 'office']),
             ],
+            'code' => [
+                'required',
+            ],
 
         ];
     }

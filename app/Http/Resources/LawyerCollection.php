@@ -16,8 +16,8 @@ class LawyerCollection extends JsonResource
     public function toArray($request)
     {
 
-        if ($this->type=='lawyer') {
-            $type_of_lawyer = optional($this->type_of_lawyer)->getTranslation('name','ar');
+        if ($this->type == 'lawyer') {
+            $type_of_lawyer = optional($this->type_of_lawyer)->getTranslation('name', 'ar');
 
         } else {
             $type_of_lawyer = $this->office_type->pluck('name')->toArray();
@@ -38,9 +38,21 @@ class LawyerCollection extends JsonResource
             'address' => $this->address,
             'age' => $this->age,
             'gender' => $this->gender,
+            'instagram' => $this->instagram,
+            'tiktok' => $this->tiktok,
+            'whats_up' => $this->whats_up,
+            'facebook' => $this->facebook,
+            'reviews'=>$this->review()->avg('review') ?? 0,
         ];
         if ($this->access_token) {
             $data['access_token'] = $this->access_token;
+        }
+        if ($this->type == 'lawyer') {
+            $data['identity_image'] = isset($this->identity_image) ? asset('storage/' . $this->identity_image) : '';
+        }
+        if ($this->type == 'office') {
+            $data['license_number'] = $this->license_number;
+            $data['license_image'] = isset($this->license_image) ? asset('storage/' . $this->license_image) : '';;
         }
         return $data;
     }

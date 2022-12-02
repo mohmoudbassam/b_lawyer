@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\SendCodeRequest;
 use App\Http\Resources\UserCollection;
+use App\Models\Code;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -27,7 +30,7 @@ class LoginController extends Controller
         $response = api(true, 200, __('api.success_login'))
             ->add('user', new UserCollection($user));
 
-        if ($user->isLawyer() && $user->enable == 0) {
+        if ($user->isLawyer() && $user->enabled == 0) {
             $response->add('message', __('api.lawyer_not_enable'));
             $response->add('enabled', $user->enabled);
         }
@@ -52,14 +55,39 @@ class LoginController extends Controller
     public function register(RegisterRequest $request)
     {
 
+        if(User::query()->where('phone',$request['phone'])->first())
+            return api(false, 400, __('api.phone_exist'))->get();
+
+        $code=Code::query()->where('phone', $request['phone'])
+            ->where('code', $request['code'])
+            ->where('created_at','>',now()->subMinutes(5))
+            ->first();
+
+        if(!$code)
+            return api(false, 400, __('api.code_not_exist'))->get();
+
         $request['password'] = Hash::make($request['password']);
-        $user = User::query()->create($request->all());
-        $user->enabled = 1;
-        $user->enabled_to = now()->addMonths(3)->toDateString();
+        $user = User::query()->create($request->except('code'));
+      //$user->enabled = 1;
+      //$user->enabled_to = now()->addMonths(3)->toDateString();
         $user->save();
         return api(true, 200, __('api.success'))
             ->get();
     }
 
+    public function send_code(SendCodeRequest $request)
+    {
+        $code = rand(1000, 9999);
+      //  send_verifcation_code($request['phone'], $code);
+
+        Code::query()->updateOrCreate([
+            'phone' => $request['phone'],
+        ], [
+            'code' => $code,
+        ]);
+        return api(true, 200, __('api.success'))
+            ->add('code', $code)
+            ->get();
+    }
 
 }

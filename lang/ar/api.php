@@ -17,5 +17,7 @@ return [
     'you_can_not_reserve_on_same_day' => 'لا يمكنك حجز موعدين في نفس اليوم',
     'already_canceled' => 'تم الغاء الحجز مسبقاً',
     'can_not_cancel' => "ًلا يمكن الغاء الحجز",
-
+    'phone_exist' => 'رقم الجوال موجود مسبقاً',
+    'code_not_exist' => 'الكود غير موجود',
+    'already_reviewed' => 'تم التقييم مسبقاً',
 ];

@@ -36,6 +36,12 @@ class CitiesSeeder extends Seeder
         ]);
         LawyerType::query()->create([
             'name' => [
+                'ar' => 'مكتب محاماة',
+                'en' => 'Lawyer Office',
+            ],
+        ]);
+        LawyerType::query()->create([
+            'name' => [
                 'ar' => 'محامي اداري ',
                 'en' => 'Administrative',
             ],

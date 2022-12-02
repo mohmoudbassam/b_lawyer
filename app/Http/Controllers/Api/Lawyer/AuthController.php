@@ -28,6 +28,16 @@ class AuthController extends Controller
             'lat' => $request['lat'] ?? auth('users')->user()->lat,
             'long' => $request['long'] ?? auth('users')->user()->long,
             'lawyer_type' => !is_array($request['lawyer_type']) ?? auth('users')->user()->lawyer_type,
+            'tiktok' => $request['tiktok'] ?? auth('users')->user()->tiktok,
+            'whats_up' => $request['whats_up'] ?? auth('users')->user()->whats_up,
+            'facebook' => $request['facebook'] ?? auth('users')->user()->facebook,
+            'instagram' => $request['instagram'] ?? auth('users')->user()->instagram,
+            'license_number' => $request['license_number'] ?? auth('users')->user()->license_number,
+            'identity_number' => $request['identity_number'] ?? auth('users')->user()->identity_number,
+            'certificates' => $request['certificates'] ?? auth('users')->user()->certificates,
+            'experience' => $request['experience'] ?? auth('users')->user()->experience,
+            'majors' => $request['majors'] ?? auth('users')->user()->majors,
+            'union_bound' => $request['union_bound'] ?? auth('users')->user()->union_bound,
         ]);
 
         if (auth('users')->user()->type == 'office') {
@@ -38,6 +48,20 @@ class AuthController extends Controller
             $path = $image->store('users', 'public');
             auth('users')->user()->update([
                 'image' => $path
+            ]);
+        }
+        if ($request->identity_image) {
+            $image = $request->identity_image;
+            $path = $image->store('users', 'public');
+            auth('users')->user()->update([
+                'identity_image' => $path
+            ]);
+        }
+        if ($request->license_image) {
+            $image = $request->license_image;
+            $path = $image->store('users', 'public');
+            auth('users')->user()->update([
+                'license_image' => $path
             ]);
         }
 

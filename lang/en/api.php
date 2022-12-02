@@ -16,4 +16,7 @@ return [
     'you_can_not_reserve_on_same_day' => 'You can not reserve on the same day',
     'already_canceled' => 'Already Canceled',
     'can_not_cancel' => 'Can not cancel',
+    'phone_exist'=>'Phone Number Already Exist',
+    'code_not_exist'=>'Code Not Exist',
+    'already_reviewed'=>'Already Reviewed',
 ];

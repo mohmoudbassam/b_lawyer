@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CancelReservation;
+use App\Http\Requests\ReviewReservationRequest;
 use App\Http\Requests\User\ReserveRequest;
 use App\Http\Resources\LawyerCollection;
 use App\Http\Resources\UserReservation;
 use App\Http\Resources\WorkingHoursCollection;
 use App\Models\Reservation;
+use App\Models\Review;
 use App\Models\User;
 use App\Models\WorkingHours;
 use Carbon\Carbon;
@@ -90,7 +92,7 @@ class LawyerController extends Controller
         if ($reservation->date < Carbon::now()->toDateString()) {
             return api(false, 400, __('api.can_not_cancel'))->get();
         }
-        if($reservation->status=='accepted' || $reservation->date < Carbon::now()->toDateString()) {
+        if ($reservation->status == 'accepted' || $reservation->date < Carbon::now()->toDateString()) {
             return api(false, 400, __('api.can_not_cancel'))->get();
         }
 
@@ -101,8 +103,22 @@ class LawyerController extends Controller
         return api(true, 200, __('api.success'))->get();
     }
 
-    public function review_reservation()
+    public function review_reservation(ReviewReservationRequest $request)
     {
+        $review = Review::query()->where('reservation_id', '=', $request->reservation_id)->first();
+
+        if ($review) {
+            return api(false, 400, __('api.already_reviewed'))->get();
+        }
+        $reservation = Reservation::query()->find($request->reservation_id);
+       Review::query()->create([
+            'reservation_id' => $request->reservation_id,
+            'review' => $request->review,
+            'lawyer_id' => $reservation->lawyer_id,
+           'user_id'=>auth('users')->user()->id
+        ]);
+
+        return api(true, 200, __('api.success'))->get();
 
     }
 }

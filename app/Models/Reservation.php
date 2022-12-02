@@ -11,6 +11,10 @@ class Reservation extends Model
 
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function lawyer()
     {
@@ -20,9 +24,9 @@ class Reservation extends Model
     {
         return $q->when($status, function ($q) use ($status) {
             if($status=='pending') {
-                return $q->whereDate('date','<', now()->toDateString());
+                return $q->whereDate('date','>', now()->toDateString());
             } elseif($status=='accepted') {
-                return $q->whereDate('date','>', 'accepted')->where('status', '!=','canceled');
+                return $q->whereDate('date','<', now()->toDateString())->where('status', '!=','canceled');
             }  elseif($status=='canceled') {
                 return $q->whereDate('status', 'canceled');
             }
@@ -31,11 +35,10 @@ class Reservation extends Model
 
     public function getReservationStatusAttribute($value)
     {
-
         if($this->status=='pending' && $this->date > now()->toDateString()) {
             return 'قيد الانتظار';
         } elseif($this->status=='pending' || $this->status=='accepted' || ($this->status!='canceled' && $this->date < now()->toDateString())) {
-            return 'مقبول';
+            return 'منتهيه';
         } elseif($this->status=='canceled') {
             return 'ملغي';
         }

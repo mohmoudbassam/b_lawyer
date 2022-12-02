@@ -139,4 +139,42 @@ function follow_up_transaction($tran_ref)
     return json_decode($response);
 }
 
+function send_verifcation_code($phone, $code)
+{
+    $data = [
+        'username' => 'mohamedhawary9494@gmail.com',
+        'password' => '9BAE98*vI',
+        'sendername' => 'afocato',
+        'mobiles' => $phone,
+        'message' => 'Your verification code is ' . $code,
+    ];
+    $data = collect($data)->map(function ($key, $value) {
+        return $value . '=' . $key;
+    })->implode('&');
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://smssmartegypt.com/sms/api/?' . $data,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Accept-Language: en-US'
+        ),
+    ));
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+    return json_decode($response);
+
+}
+
 

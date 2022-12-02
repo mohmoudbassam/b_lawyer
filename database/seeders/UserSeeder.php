@@ -21,6 +21,8 @@ class UserSeeder extends Seeder
             'email'=>'mamhoud@test.com',
             'password' => bcrypt('123456'),
             'type' => 'user',
+            'enabled' => 1,
+            'enabled_to' => now()->addMonths(3)->toDateString(),
         ]);
         User::query()->create([
             'name' => 'admin',
@@ -28,6 +30,8 @@ class UserSeeder extends Seeder
             'email'=>'mamhosud@test.com',
             'password' => bcrypt('123456'),
             'type' => 'lawyer',
+            'enabled' => 1,
+            'enabled_to' => now()->addMonths(3)->toDateString(),
         ]);
         $office=User::query()->create([
             'name' => 'lawyer',
@@ -35,6 +39,8 @@ class UserSeeder extends Seeder
             'email'=>'mamhmud@test.com',
             'password' => bcrypt('123456'),
             'type' => 'office',
+            'enabled' => 1,
+            'enabled_to' => now()->addMonths(3)->toDateString(),
         ]);
         $office1=User::query()->create([
             'name' => 'lawyerOffice',
@@ -42,6 +48,8 @@ class UserSeeder extends Seeder
             'email'=>'mamhmudd@test.com',
             'password' => bcrypt('123456'),
             'type' => 'office',
+            'enabled' => 1,
+            'enabled_to' => now()->addMonths(3)->toDateString(),
         ]);
         $office->office_type()->attach([1,2]);
         $office1->office_type()->attach([3,2]);

@@ -10,12 +10,12 @@ class LawyerReservationResource extends JsonResource
 
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'user' => new UserForReservationResource($this->user),
             'date' => Carbon::parse($this->date)->format('Y-m-d'),
-            'status' => $this->status,
-
+            'status' => $this->reservation_status,
         ];
     }
 }

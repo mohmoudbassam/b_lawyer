@@ -17,6 +17,9 @@ return new class extends Migration {
             $table->text('image')->nullable();
             $table->text('address')->nullable();
             $table->text('about_me')->nullable();
+
+            $table->text('tiktok')->nullable();
+            $table->text('whats_up')->nullable();
             $table->integer('age')->nullable();
             $table->string('gender')->nullable();
             $table->integer('enabled')->nullable();
@@ -29,7 +32,20 @@ return new class extends Migration {
             $table->text('long')->nullable();
             $table->text('facebook')->nullable();
             $table->text('instagram')->nullable();
+            $table->text('identity_image')->nullable();
+            $table->text('license_number')->nullable();
+            $table->text('license_image')->nullable();
             $table->date('enabled_to')->nullable();
+            $table->date('identity_number')->nullable();
+            $table->date('certificates')->nullable();
+            $table->date('experience')->nullable();
+            $table->date('majors')->nullable();
+            $table->date('union_bound')->nullable();
+            $table->unsignedBigInteger('experience_id')
+                ->on('experience')
+                ->onUpdate('CASCADE')
+                ->onDelete('set Null')
+                ->nullable();
             $table->unsignedBigInteger('lawyer_type')
                 ->on('lawyer_types')
                 ->onUpdate('CASCADE')

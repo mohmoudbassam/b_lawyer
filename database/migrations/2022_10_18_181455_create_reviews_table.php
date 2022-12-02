@@ -15,6 +15,19 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')
+            ->on('users')
+                ->onDelete('Set null')
+                ->onUpdate('cascade');
+            $table->unsignedBigInteger('lawyer_id')
+            ->on('users')
+                ->onDelete('Set null')
+                ->onUpdate('cascade');
+            $table->unsignedBigInteger('reservation_id')
+                ->on('reservations')
+                ->onDelete('Set null')
+                ->onUpdate('cascade');
+            $table->double('review')->nullable();
             $table->timestamps();
         });
     }

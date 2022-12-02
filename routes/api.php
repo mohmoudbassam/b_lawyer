@@ -31,11 +31,10 @@ Route::prefix('user')->middleware('UserAuth')->group(function () {
     Route::post('/reserve_appointment', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve_appointment']);
     Route::get('/my_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'my_reservation']);
     Route::post('/cancel_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'cancel_reservation']);
-    Route::post('/review_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
+    Route::post('/add_review', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
     Route::middleware(['LawyerEnabled','LawyerAuth'])->group(function () {
-
         Route::get('/me', [LawyerAuthController::class, 'me']);
         Route::post('/complete_profile', [LawyerAuthController::class, 'complete_profile']);
         Route::post('add_workings_hours', [AppointmentController::class, 'add_workings_hours']);
@@ -55,4 +54,4 @@ Route::prefix('constants')->group(function () {
     Route::get('/cities', [ConstantsController::class, 'cities']);
     Route::get('/lawyer_types', [ConstantsController::class, 'lawyer_types']);
 });
-
+Route::post('send_code', [\App\Http\Controllers\Api\LoginController::class, 'send_code']);

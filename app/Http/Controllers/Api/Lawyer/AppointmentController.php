@@ -54,6 +54,7 @@ class AppointmentController extends Controller
 
     public function my_reservations()
     {
+
         $reservations = Reservation::query()
             ->where('lawyer_id', auth('users')->user()->getKey())
             ->whenStatus(request('status'))
