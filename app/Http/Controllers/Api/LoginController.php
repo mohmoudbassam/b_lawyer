@@ -68,8 +68,8 @@ class LoginController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::query()->create($request->except('code'));
-      //$user->enabled = 1;
-      //$user->enabled_to = now()->addMonths(3)->toDateString();
+      $user->enabled = 1;
+      $user->enabled_to = now()->addMonths(3)->toDateString();
         $user->save();
         return api(true, 200, __('api.success'))
             ->get();
@@ -78,7 +78,7 @@ class LoginController extends Controller
     public function send_code(SendCodeRequest $request)
     {
         $code = rand(1000, 9999);
-      //  send_verifcation_code($request['phone'], $code);
+        send_verifcation_code($request['phone'], $code);
 
         Code::query()->updateOrCreate([
             'phone' => $request['phone'],
