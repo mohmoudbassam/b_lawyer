@@ -43,7 +43,7 @@ class LawyerCollection extends JsonResource
             'whats_up' => $this->whats_up,
             'facebook' => $this->facebook,
             'reviews'=>$this->review()->avg('review') ?? 0,
-            'certificates'=>$this->review()->avg('certificates') ?? 0,
+            'certificates'=>$this->review()->avg('review') ?? 0,
             'experience'=>$this->review()->avg('experience') ?? 0,
             'majors'=>$this->review()->avg('majors') ?? 0,
             'union_bound'=>$this->review()->avg('union_bound') ?? 0,
