@@ -28,6 +28,7 @@ class LawyerCollection extends JsonResource
             'name' => $this->name ?? '',
             'phone' => $this->phone ?? '',
             'mobile' => $this->mobile ?? '',
+            'email' => $this->email ?? '',
             'image' => $this->image ?? '',
             'type' => $this->type ?? '',
             'lawyer_type' => $type_of_lawyer ?? '',

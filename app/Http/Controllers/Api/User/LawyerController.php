@@ -28,7 +28,7 @@ class LawyerController extends Controller
             ->whenName($request->name)
             ->whenCity($request->city_id)
             ->whenId($request->id)
-            ->whenTypeOfLawyer($request->type_of_lawyer)
+            ->whenTypeOfLawyer($request->type)
             ->whereLawyerEnabled()
             ->paginate(request('per_page') ?? 10);
 
