@@ -37,10 +37,10 @@ return new class extends Migration {
             $table->text('license_image')->nullable();
             $table->date('enabled_to')->nullable();
             $table->date('identity_number')->nullable();
-            $table->date('certificates')->nullable();
-            $table->date('experience')->nullable();
-            $table->date('majors')->nullable();
-            $table->date('union_bound')->nullable();
+            $table->text('certificates')->nullable();
+            $table->text('experience')->nullable();
+            $table->text('majors')->nullable();
+            $table->text('union_bound')->nullable();
             $table->unsignedBigInteger('experience_id')
                 ->on('experience')
                 ->onUpdate('CASCADE')
