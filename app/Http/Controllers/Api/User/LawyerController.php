@@ -73,7 +73,9 @@ class LawyerController extends Controller
 
     public function my_reservation()
     {
-        $reservations = Reservation::query()->where('user_id', auth('users')->user()->getKey())->get();
+        $reservations = Reservation::query()->where('user_id', auth('users')->user()->getKey())
+            ->whenStatus(request('status'))
+            ->get();
         return api(true, 200, __('api.success'))
             ->add('reservations', UserReservation::collection($reservations))
             ->get();

@@ -14,7 +14,8 @@ class AuthController extends Controller
 
     public function complete_profile(LawyerCompleteProfileRequest $request)
     {
-
+        //dd(!is_null(request('lawyer_type')),$request->all());
+//dd((!is_array($request['lawyer_type']) ) ,!is_null(request('lawyer_type')));
         auth('users')->user()->update([
             'name' => $request['name'] ?? auth('users')->user()->name,
             'email' => $request['email'] ?? auth('users')->user()->email,
@@ -27,7 +28,7 @@ class AuthController extends Controller
             'city_id' => $request['city_id'] ?? auth('users')->user()->city_id,
             'lat' => $request['lat'] ?? auth('users')->user()->lat,
             'long' => $request['long'] ?? auth('users')->user()->long,
-            'lawyer_type' => !is_array($request['lawyer_type']) ?? auth('users')->user()->lawyer_type,
+            'lawyer_type' => (!is_array($request['lawyer_type']) && !is_null(request('lawyer_type')))  ?request('lawyer_type') :auth('users')->user()->lawyer_type,
             'tiktok' => $request['tiktok'] ?? auth('users')->user()->tiktok,
             'whats_up' => $request['whats_up'] ?? auth('users')->user()->whats_up,
             'facebook' => $request['facebook'] ?? auth('users')->user()->facebook,

@@ -122,10 +122,7 @@ class User extends Authenticatable
         return $q->whereDate('enabled_to','>',now()->toDateString())->where('enabled', 1);
     }
 
-    public function experience()
-    {
-        return $this->hasOne(Experience::class, 'lawyer_id', 'id');
-    }
+
 
     public function review(){
         return $this->hasMany(Review::class, 'lawyer_id', 'id');
