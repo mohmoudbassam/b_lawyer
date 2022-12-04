@@ -55,21 +55,21 @@ class LoginController extends Controller
     public function register(RegisterRequest $request)
     {
 
-        if(User::query()->where('phone',$request['phone'])->first())
+        if (User::query()->where('phone', $request['phone'])->first())
             return api(false, 400, __('api.phone_exist'))->get();
 
-        $code=Code::query()->where('phone', $request['phone'])
-            ->where('code', $request['code'])
-            ->where('created_at','>',now()->subMinutes(5))
-            ->first();
-
-        if(!$code)
-            return api(false, 400, __('api.code_not_exist'))->get();
+//        $code=Code::query()->where('phone', $request['phone'])
+//            ->where('code', $request['code'])
+//            ->where('created_at','>',now()->subMinutes(5))
+//            ->first();
+//
+//        if(!$code)
+//            return api(false, 400, __('api.code_not_exist'))->get();
 
         $request['password'] = Hash::make($request['password']);
         $user = User::query()->create($request->except('code'));
-      $user->enabled = 1;
-      $user->enabled_to = now()->addMonths(3)->toDateString();
+        $user->enabled = 1;
+        $user->enabled_to = now()->addMonths(3)->toDateString();
         $user->save();
         return api(true, 200, __('api.success'))
             ->get();
