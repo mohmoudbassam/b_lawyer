@@ -29,7 +29,7 @@ class PlansController extends Controller
             'status' => 'pending',
         ]);
         $response = payment($plan, route('after_payment', $payment));
-
+        dd($response);
         if (!isset($response->tran_ref)) {
             return api('error', 400, 'api.error')->get();
         }
