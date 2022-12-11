@@ -23,6 +23,7 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 
 Route::post('/login', [App\Http\Controllers\Api\LoginController::class, 'login']);
 Route::post('/register', [App\Http\Controllers\Api\LoginController::class, 'register']);
+Route::post('social_login', [App\Http\Controllers\Api\LoginController::class, 'social_login']);
 Route::prefix('user')->middleware('UserAuth')->group(function () {
     Route::get('/me', [App\Http\Controllers\Api\LoginController::class, 'me']);
     Route::get('list', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);

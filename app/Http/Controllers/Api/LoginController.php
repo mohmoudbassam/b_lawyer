@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\SendCodeRequest;
+use App\Http\Requests\SocialLoginRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\Code;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Kreait\Laravel\Firebase\Facades\Firebase;
 
 class LoginController extends Controller
 {
@@ -88,6 +90,34 @@ class LoginController extends Controller
         return api(true, 200, __('api.success'))
             ->add('code', $code)
             ->get();
+    }
+
+    public function social_login(SocialLoginRequest $request)
+    {
+        $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
+        $name_arr = explode(' ', $verifiedToken->claims()->get('name'));
+        $email = $verifiedToken->claims()->get('email');
+        $user = User::query()->where('email', $email)->first();
+
+        if (!$user) {
+            $user = User::query()->create([
+                'name' => isset($name_arr[0]) ? $name_arr[0] : null,
+                'email' => $email,
+//            'password' => Hash::make($request['password']),
+                'phone' => $request['phone'] ?? auth('users')->user()->phone,
+                'type'=>'user'
+            ]);
+        }
+        $tokenResult = $user->createToken('users', ['users']);
+        $token = $tokenResult->token;
+        $token->save();
+        $response = api(true, 200, __('api.success_login'))
+            ->add('user', new UserCollection($user));
+
+
+        $user->access_token = 'Bearer ' . $tokenResult->accessToken;
+
+        return $response->get();
     }
 
 }
