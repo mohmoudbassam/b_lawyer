@@ -9,10 +9,10 @@ class SocialLoginRequest extends BaseRequest
     public function rules()
     {
         return [
-            'token' => [
-                'required',
-                'string'
-            ],
+//            'token' => [
+//                'required',
+//                'string'
+//            ],
         ];
     }
 }

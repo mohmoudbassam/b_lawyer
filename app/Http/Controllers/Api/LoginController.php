@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
+use Lcobucci\JWT\Token\Parser;
 
 class LoginController extends Controller
 {
@@ -94,17 +95,24 @@ class LoginController extends Controller
 
     public function social_login(SocialLoginRequest $request)
     {
-        $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
-        $name_arr = explode(' ', $verifiedToken->claims()->get('name'));
+
+      //$verifiedToken=  Firebase::auth()->parseToken($request['token']);
+       // $parsedToken = (new Parser)->parse($bearerToken);
+      //$test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
+     //  dd($test);
+
+     $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
+
+       $name_arr = explode(' ', $verifiedToken->claims()->get('name'));
         $email = $verifiedToken->claims()->get('email');
+
         $user = User::query()->where('email', $email)->first();
 
         if (!$user) {
             $user = User::query()->create([
                 'name' => isset($name_arr[0]) ? $name_arr[0] : null,
                 'email' => $email,
-//            'password' => Hash::make($request['password']),
-                'phone' => $request['phone'] ?? auth('users')->user()->phone,
+                'password' => Hash::make('123456'),
                 'type'=>'user'
             ]);
         }
