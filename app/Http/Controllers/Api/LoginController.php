@@ -98,8 +98,8 @@ class LoginController extends Controller
 
         //$verifiedToken=  Firebase::auth()->parseToken($request['token']);
         // $parsedToken = (new Parser)->parse($bearerToken);
-        //$test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
-        //  dd($test);
+       // $test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
+      //    dd($test);
 
         $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
 

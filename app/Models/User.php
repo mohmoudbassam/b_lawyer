@@ -128,4 +128,8 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'lawyer_id', 'id');
     }
 
+    public function scopeWhenRateSort($q,$sort){
+        return $q->withAvg('review','review')->orderBy('review_avg_review',$sort);
+    }
+
 }
