@@ -124,5 +124,18 @@ class LawyerController extends Controller
         return api(true, 200, __('api.success'))->get();
     }
 
+    public function subscription_lawyers(){
+        $lawyers = User::query()
+            ->where(function ($q) {
+                $q->where('type', 'lawyer')
+                    ->orWhere('type', 'office');
+            })->where('enabled', 1)
+            ->whereLawyerEnabled()
+            ->paginate(request('per_page') ?? 10);
+        return api(true, 200, __('api.success'))
+            ->add('lawyers', LawyerCollection::collection($lawyers), $lawyers)
+            ->get();
+    }
+
 
 }

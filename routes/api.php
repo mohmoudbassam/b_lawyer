@@ -62,3 +62,4 @@ Route::prefix('constants')->group(function () {
     Route::get('/lawyer_types', [ConstantsController::class, 'lawyer_types']);
 });
 Route::post('send_code', [\App\Http\Controllers\Api\LoginController::class, 'send_code']);
+Route::get('subscription_lawyers', [App\Http\Controllers\Api\User\LawyerController::class, 'subscription_lawyers']);
