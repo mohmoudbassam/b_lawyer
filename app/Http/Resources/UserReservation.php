@@ -21,6 +21,7 @@ class UserReservation extends JsonResource
             'status' => $this->reservation_status,
             'lawyer' => new LawyerForReservationResource($this->lawyer),
 
+
         ];
     }
 }

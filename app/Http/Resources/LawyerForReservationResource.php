@@ -29,6 +29,7 @@ class LawyerForReservationResource extends JsonResource
             'address' => $this->address,
             'age' => $this->age,
             'gender' => $this->gender,
+            'fcm' => $this->fcm ?? '',
         ];
     }
 }
