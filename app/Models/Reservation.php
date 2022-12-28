@@ -25,7 +25,7 @@ class Reservation extends Model
 
         return $q->when($status, function ($q) use ($status) {
             if($status=='pending') {
-                return $q->whereDate('status','=','pending');
+                return $q->where('status','=','pending');
             } elseif($status=='accepted') {
                 return $q->where('status', '=','ended');
             }  elseif($status=='canceled') {
