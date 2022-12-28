@@ -18,6 +18,7 @@ class ReviewCollection extends JsonResource
             'comment' => $this->comment,
             'created_at' => $this->created_at->format('Y-m-d'),
             'user_image' => $this->image,
+            'name'=>$this->user->name,
         ];
 
     }
