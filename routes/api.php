@@ -33,6 +33,8 @@ Route::prefix('user')->middleware('UserAuth')->group(function () {
     Route::get('/my_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'my_reservation']);
     Route::post('/cancel_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'cancel_reservation']);
     Route::post('/add_review', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
+    Route::post('/update_profile', [App\Http\Controllers\Api\User\UserController::class, 'update_profile']);
+    Route::get('/get_reviews', [App\Http\Controllers\Api\User\UserController::class, 'get_reviews']);
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
     Route::middleware(['LawyerEnabled','LawyerAuth'])->group(function () {
@@ -42,13 +44,13 @@ Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
         Route::post('delete_workings_hours', [AppointmentController::class, 'delete_workings_hours']);
         Route::get('get_workings_hours', [AppointmentController::class, 'get_workings_hours']);
         Route::get('my_reservations', [AppointmentController::class, 'my_reservations']);
+        Route::post('complete_reservations', [AppointmentController::class, 'complete_reservations']);
+        Route::post('cancel_reservations', [AppointmentController::class, 'cancel_reservations']);
     });
     Route::prefix('plans')->group(function () {
         Route::get('list', [PlansController::class, 'list']);
         Route::post('payment', [PlansController::class, 'payment']);
-
     });
-
 });
 
 Route::prefix('constants')->group(function () {

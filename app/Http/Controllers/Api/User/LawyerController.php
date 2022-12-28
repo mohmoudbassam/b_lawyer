@@ -117,10 +117,12 @@ class LawyerController extends Controller
             'reservation_id' => $request->reservation_id,
             'review' => $request->review,
             'lawyer_id' => $reservation->lawyer_id,
-           'user_id'=>auth('users')->user()->id
+           'user_id'=>auth('users')->user()->id,
+           'comment'=>$request->comment,
         ]);
 
         return api(true, 200, __('api.success'))->get();
-
     }
+
+
 }

@@ -26,7 +26,10 @@ class Reservation extends Model
             if($status=='pending') {
                 return $q->whereDate('date','>', now()->toDateString());
             } elseif($status=='accepted') {
-                return $q->whereDate('date','<', now()->toDateString())->where('status', '!=','canceled');
+                return $q->where(function ($q){
+                    $q->whereDate('date','<', now()->toDateString())
+                        ->where('status', '!=','canceled');
+                })->orWhere('status', '=','ended');
             }  elseif($status=='canceled') {
                 return $q->whereDate('status', 'canceled');
             }
@@ -35,9 +38,10 @@ class Reservation extends Model
 
     public function getReservationStatusAttribute($value)
     {
-        if($this->status=='pending' && $this->date > now()->toDateString()) {
+
+        if($this->status=='pending') {
             return 'قيد الانتظار';
-        } elseif($this->status=='pending' || $this->status=='accepted' || ($this->status!='canceled' && $this->date < now()->toDateString())) {
+        } elseif($this->status=='pending' || $this->status=='ended' || ($this->status!='canceled' && $this->date < now()->toDateString())) {
             return 'منتهيه';
         } elseif($this->status=='canceled') {
             return 'ملغي';

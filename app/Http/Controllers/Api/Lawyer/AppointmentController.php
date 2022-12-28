@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Lawyer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompeleteReservation;
 use App\Http\Requests\DeleteWorkingHours;
 use App\Http\Requests\Lawyer\AddWorkingHoursRequest;
 use App\Http\Requests\Lawyer\LawyerCompleteProfileRequest;
@@ -61,6 +62,27 @@ class AppointmentController extends Controller
             ->paginate(request('per_page') ?? 10);
         return api(true, 200, __('api.success'))
             ->add('reservations', LawyerReservationResource::collection($reservations),$reservations)
+            ->get();
+    }
+    public function complete_reservations(CompeleteReservation $request){
+        $reservation=Reservation::query()->where('id',$request->reservation_id)->find($request->reservation_id)->update([
+            'status'=>'ended'
+        ]);
+
+        return api(true, 200, __('api.success'))
+            ->get();
+    }
+    public function cancel_reservations(CompeleteReservation $request){
+        $reservation=Reservation::query()->where('id',$request->reservation_id)->find($request->reservation_id);
+        if($reservation->status=='pending'){
+            $reservation->update([
+                'status'=>'canceled'
+            ]);
+        }else{
+            return api(false, 200, __('api.cant_cancel_reservation'))
+            ->get();
+        }
+        return api(true, 200, __('api.success'))
             ->get();
     }
 }

@@ -19,4 +19,5 @@ return [
     'phone_exist'=>'Phone Number Already Exist',
     'code_not_exist'=>'Code Not Exist',
     'already_reviewed'=>'Already Reviewed',
+    'cant_cancel_reservation'=>'You can not cancel reservation',
 ];

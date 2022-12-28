@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
+            $table->text('comment')->nullable();
             $table->unsignedBigInteger('user_id')
             ->on('users')
                 ->onDelete('Set null')

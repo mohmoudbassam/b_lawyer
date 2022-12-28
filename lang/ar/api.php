@@ -20,4 +20,5 @@ return [
     'phone_exist' => 'رقم الجوال موجود مسبقاً',
     'code_not_exist' => 'الكود غير موجود',
     'already_reviewed' => 'تم التقييم مسبقاً',
+    'cant_cancel_reservation'=>'لا يمكنك الغاء الحجز',
 ];
