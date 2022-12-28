@@ -38,6 +38,8 @@ class LoginController extends Controller
             $response->add('enabled', $user->enabled);
         }
 
+        $user->fcm=$request->fcm;
+        $user->save();
         $user->access_token = 'Bearer ' . $tokenResult->accessToken;
 
         return $response->get();

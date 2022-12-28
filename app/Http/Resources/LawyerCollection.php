@@ -48,6 +48,7 @@ class LawyerCollection extends JsonResource
             'experience'=>$this->experience ?? '',
             'majors'=>$this->majors ?? '',
             'union_bound'=>$this->union_bound ?? '',
+            'fcm'=>$this->fcm ?? '',
         ];
         if ($this->access_token) {
             $data['access_token'] = $this->access_token;

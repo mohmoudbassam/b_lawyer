@@ -27,6 +27,7 @@ class UserCollection extends JsonResource
             'address' => $this->address ?? '',
             'age' => $this->age ?? '',
             'gender' => $this->gender ?? '',
+            'fcm' => $this->fcm ?? '',
         ];
         if ($this->access_token) {
             $data['access_token'] = $this->access_token;
