@@ -22,13 +22,14 @@ class Reservation extends Model
     }
     public function scopeWhenStatus($q, $status)
     {
+
         return $q->when($status, function ($q) use ($status) {
             if($status=='pending') {
                 return $q->whereDate('status','=','pending');
             } elseif($status=='accepted') {
                 return $q->where('status', '=','ended');
             }  elseif($status=='canceled') {
-                return $q->whereDate('status', 'canceled');
+                return $q->where('status', 'canceled');
             }
         });
     }
