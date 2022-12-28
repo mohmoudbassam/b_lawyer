@@ -22,4 +22,5 @@ return [
     'already_reviewed' => 'تم التقييم مسبقاً',
     'cant_cancel_reservation'=>'لا يمكنك الغاء الحجز',
     'no_subscription'=>'لا يوجد اشتراك مفعل',
+    'you_are_login_as_guest_account'=>'انت مسجل الدخول كزائر',
 ];

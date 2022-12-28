@@ -25,6 +25,13 @@ class UserSeeder extends Seeder
             'enabled_to' => now()->addMonths(3)->toDateString(),
         ]);
         User::query()->create([
+            'name' => 'guest',
+            'phone' => '010',
+            'email'=>'guest',
+            'password' => bcrypt('123456'),
+            'type' => 'user',
+        ]);
+        User::query()->create([
             'name' => 'admin',
             'phone' => '00',
             'email'=>'mamhosud@test.com',

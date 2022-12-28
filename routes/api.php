@@ -29,12 +29,14 @@ Route::prefix('user')->middleware('UserAuth')->group(function () {
     Route::get('list', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
     Route::get('type_of_lawyers', [App\Http\Controllers\Api\User\LawyerController::class, 'list']);
     Route::get('lawyer_working_hours', [App\Http\Controllers\Api\User\LawyerController::class, 'lawyer_working_hours']);
-    Route::post('/reserve_appointment', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve_appointment']);
-    Route::get('/my_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'my_reservation']);
-    Route::post('/cancel_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'cancel_reservation']);
-    Route::post('/add_review', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
-    Route::post('/update_profile', [App\Http\Controllers\Api\User\UserController::class, 'update_profile']);
-    Route::get('/get_reviews', [App\Http\Controllers\Api\User\UserController::class, 'get_reviews']);
+    Route::middleware('NotGuest')->group(function ($q){
+        Route::post('/reserve_appointment', [App\Http\Controllers\Api\User\LawyerController::class, 'reserve_appointment']);
+        Route::get('/my_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'my_reservation']);
+        Route::post('/cancel_reservation', [App\Http\Controllers\Api\User\LawyerController::class, 'cancel_reservation']);
+        Route::post('/add_review', [App\Http\Controllers\Api\User\LawyerController::class, 'review_reservation']);
+        Route::post('/update_profile', [App\Http\Controllers\Api\User\UserController::class, 'update_profile']);
+        Route::get('/get_reviews', [App\Http\Controllers\Api\User\UserController::class, 'get_reviews']);
+    });
 
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
@@ -63,3 +65,4 @@ Route::prefix('constants')->group(function () {
 });
 Route::post('send_code', [\App\Http\Controllers\Api\LoginController::class, 'send_code']);
 Route::get('subscription_lawyers', [App\Http\Controllers\Api\User\LawyerController::class, 'subscription_lawyers']);
+Route::get('guest_token', [App\Http\Controllers\Api\LoginController::class, 'guest_login']);

@@ -96,14 +96,14 @@ class LoginController extends Controller
     public function social_login(SocialLoginRequest $request)
     {
 
-      //$verifiedToken=  Firebase::auth()->parseToken($request['token']);
-       // $parsedToken = (new Parser)->parse($bearerToken);
-      //$test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
-     //  dd($test);
+        //$verifiedToken=  Firebase::auth()->parseToken($request['token']);
+        // $parsedToken = (new Parser)->parse($bearerToken);
+        //$test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
+        //  dd($test);
 
-     $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
+        $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
 
-       $name_arr = explode(' ', $verifiedToken->claims()->get('name'));
+        $name_arr = explode(' ', $verifiedToken->claims()->get('name'));
         $email = $verifiedToken->claims()->get('email');
 
         $user = User::query()->where('email', $email)->first();
@@ -113,7 +113,7 @@ class LoginController extends Controller
                 'name' => isset($name_arr[0]) ? $name_arr[0] : null,
                 'email' => $email,
                 'password' => Hash::make('123456'),
-                'type'=>'user'
+                'type' => 'user'
             ]);
         }
         $tokenResult = $user->createToken('users', ['users']);
@@ -128,6 +128,17 @@ class LoginController extends Controller
         return $response->get();
     }
 
+    public function guest_login()
+    {
+        $user = User::query()->where('phone','010')->first();
+        $tokenResult = $user->createToken('users', ['users']);
+        $token = $tokenResult->token;
+        $token->save();
+        $response = api(true, 200, __('api.success_login'))
+            ->add('user', new UserCollection($user));
 
+        $user->access_token = 'Bearer ' . $tokenResult->accessToken;
 
+        return $response->get();
+    }
 }

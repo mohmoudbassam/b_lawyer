@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'UserAuth' => \App\Http\Middleware\AuthUser::class,
         'LawyerAuth' => \App\Http\Middleware\LawyerAuth::class,
         'LawyerEnabled' => \App\Http\Middleware\LawyerEnabled::class,
+        'NotGuest' => \App\Http\Middleware\NotGuest::class,
     ];
 }
