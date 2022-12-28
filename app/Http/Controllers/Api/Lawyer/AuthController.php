@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Lawyer\LawyerCompleteProfileRequest;
 use App\Http\Resources\LawyerCollection;
 use App\Http\Resources\UserCollection;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -76,5 +77,20 @@ class AuthController extends Controller
         return api(true, 200, __('api.success'))
             ->add('user', new LawyerCollection(auth('users')->user()))
             ->get();
+    }
+
+    public function my_subscription(){
+      $payment=  Payment::query()->where('user_id',auth('users')->user()->id)
+            ->orderBy('id','desc')
+            ->first();
+
+      return api(true, 200, __('api.success'))
+            ->add('payment',[
+                'id'=>$payment->id,
+                'price'=>$payment->amount,
+                'created_at'=>$payment->created_at->format('Y-m-d'),
+                'plan_name' => $payment->plan->name ?? '',
+                'description' => $payment->plan->description ?? '',
+            ])->get();
     }
 }
