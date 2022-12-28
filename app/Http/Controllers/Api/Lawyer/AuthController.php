@@ -84,13 +84,18 @@ class AuthController extends Controller
             ->orderBy('id','desc')
             ->first();
 
+      if(is_null($payment)){
+            return api(false, 200, __('api.no_subscription'))
+                ->get();
+      }
+
       return api(true, 200, __('api.success'))
             ->add('payment',[
-                'id'=>$payment->id,
-                'price'=>$payment->amount,
-                'created_at'=>$payment->created_at->format('Y-m-d'),
-                'plan_name' => $payment->plan->name ?? '',
-                'description' => $payment->plan->description ?? '',
+                'id'=>$payment->id ?? '',
+                'price'=>$payment->amount ?? '',
+                'created_at'=>$payment->created_at->format('Y-m-d') ?? '',
+                'plan_name' => optional($payment->plan)->name ?? '',
+                'description' =>optional($payment->plan)->description ?? '',
             ])->get();
     }
 }

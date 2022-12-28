@@ -21,4 +21,5 @@ return [
     'code_not_exist' => 'الكود غير موجود',
     'already_reviewed' => 'تم التقييم مسبقاً',
     'cant_cancel_reservation'=>'لا يمكنك الغاء الحجز',
+    'no_subscription'=>'لا يوجد اشتراك مفعل',
 ];
