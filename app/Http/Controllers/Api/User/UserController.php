@@ -77,8 +77,10 @@ class UserController extends Controller
           ->where('lawyer_id',$request->lawyer_id)
           ->paginate(request('per_page') ?? 10);
 
+      $lawyer=User::query()->where('id',$request->lawyer_id)->first()->review()->avg('review');
         return api(true, 200, __('api.success'))
             ->add('reviews', ReviewCollection::collection($reviews),$reviews)
+            ->add('total_review',$lawyer)
             ->get();
     }
 }
