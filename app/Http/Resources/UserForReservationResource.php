@@ -17,6 +17,7 @@ class UserForReservationResource extends JsonResource
             'mobile' => $this->mobile,
             'image' => $this->image,
             'address' => $this->address,
+            'fcm'=>$this->fcm,
         ];
     }
 }
