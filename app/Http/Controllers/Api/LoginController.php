@@ -73,8 +73,8 @@ class LoginController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::query()->create($request->except('code'));
-        $user->enabled = 1;
-        $user->enabled_to = now()->addMonths(3)->toDateString();
+      //  $user->enabled = 1;
+      //  $user->enabled_to = now()->addMonths(3)->toDateString();
         $user->save();
         return api(true, 200, __('api.success'))
             ->get();
