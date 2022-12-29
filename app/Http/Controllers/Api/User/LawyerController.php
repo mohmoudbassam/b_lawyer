@@ -59,6 +59,7 @@ class LawyerController extends Controller
 
     public function reserve_appointment(ReserveRequest $request)
     {
+
         $lawyer = User::query()->find($request->lawyer_id);
 
         if (auth('users')->user()->reservations()->whereDate('date', $request->date)->exists()) {

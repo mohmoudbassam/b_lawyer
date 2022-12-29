@@ -20,5 +20,6 @@ class NotGuest
         if(auth('users')->user()->phone == '010'){
             return api(false, 400, __('api.you_are_login_as_guest_account'))->get();
         }
+        return $next($request);
     }
 }
