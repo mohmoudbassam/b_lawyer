@@ -40,7 +40,7 @@ Route::prefix('user')->middleware('UserAuth')->group(function () {
 
 });
 Route::prefix('lawyer')->middleware('UserAuth')->group(function () {
-    Route::middleware(['LawyerEnabled','LawyerAuth'])->group(function () {
+    Route::middleware(['LawyerAuth'])->group(function () {
         Route::get('/me', [LawyerAuthController::class, 'me']);
         Route::post('/complete_profile', [LawyerAuthController::class, 'complete_profile']);
         Route::get('my_subscription', [LawyerAuthController::class, 'my_subscription']);

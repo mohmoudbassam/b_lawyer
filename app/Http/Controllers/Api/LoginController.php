@@ -33,10 +33,10 @@ class LoginController extends Controller
         $response = api(true, 200, __('api.success_login'))
             ->add('user', new UserCollection($user));
 
-        if ($user->isLawyer() && $user->enabled == 0) {
-            $response->add('message', __('api.lawyer_not_enable'));
-            $response->add('enabled', $user->enabled);
-        }
+//        if ($user->isLawyer() && $user->enabled == 0) {
+//            $response->add('message', __('api.lawyer_not_enable'));
+//            $response->add('enabled', $user->enabled);
+//        }
 
         $user->fcm=$request->fcm;
         $user->save();
