@@ -17,7 +17,7 @@ class ReserveRequest extends BaseRequest
                 'required',
                 Rule::exists('users', 'id')->where(function ($query) {
                     $query->whereIn('type', ['lawyer', 'office']);
-                })->where('enabled', 1),
+                }),
             ],
             'date' => [
                 'required',

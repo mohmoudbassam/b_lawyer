@@ -25,7 +25,8 @@ class LawyerController extends Controller
         $lawyers = User::query()
             ->where(function ($q) {
                 $q->where('type', 'lawyer')->orWhere('type', 'office');
-            })->where('enabled', 1)
+            })
+            //->where('enabled', 1)
             ->whenName($request->name)
             ->whenRateSort($request->sort)
             ->whenCity($request->city_id)
