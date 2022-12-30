@@ -31,7 +31,7 @@ class LawyerController extends Controller
             ->whenCity($request->city_id)
             ->whenId($request->id)
             ->whenTypeOfLawyer($request->type)
-            ->whereLawyerEnabled()
+        //    ->whereLawyerEnabled()
             ->paginate(request('per_page') ?? 10);
 
         if ($request->id) {
@@ -47,7 +47,7 @@ class LawyerController extends Controller
     public function lawyer_working_hours(Request $request)
     {
         $lawyer = User::query()->where('id', $request->lawyer_id)
-            ->whereLawyerEnabled()
+         //   ->whereLawyerEnabled()
             ->firstOrFail();
 
         $working_hours = WorkingHours::query()->where('lawyer_id', $lawyer->id)->get();
@@ -133,7 +133,7 @@ class LawyerController extends Controller
                 $q->where('type', 'lawyer')
                     ->orWhere('type', 'office');
             })->where('enabled', 1)
-            ->whereLawyerEnabled()
+           ->whereLawyerEnabled()
             ->paginate(request('per_page') ?? 10);
         return api(true, 200, __('api.success'))
             ->add('lawyers', LawyerCollection::collection($lawyers), $lawyers)
