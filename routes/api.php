@@ -22,6 +22,9 @@ use Paytabscom\Laravel_paytabs\Facades\paypage;
 
 
 Route::post('/login', [App\Http\Controllers\Api\LoginController::class, 'login']);
+Route::get('/check_fcm', [App\Http\Controllers\Api\LoginController::class, 'check_fcm']);
+Route::post('/generate_reset_password_code', [App\Http\Controllers\Api\LoginController::class, 'generate_reset_password_code']);
+Route::post('/reset_password', [App\Http\Controllers\Api\LoginController::class, 'reset_password']);
 Route::post('/register', [App\Http\Controllers\Api\LoginController::class, 'register']);
 Route::post('social_login', [App\Http\Controllers\Api\LoginController::class, 'social_login']);
 Route::prefix('user')->middleware('UserAuth')->group(function () {

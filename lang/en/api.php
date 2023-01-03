@@ -22,4 +22,5 @@ return [
     'cant_cancel_reservation'=>'You can not cancel reservation',
     'no_subscription'=>'No Active Subscription',
     'you_are_login_as_guest_account'=>'You are login as guest account',
+    'not_found'=>'Not Found',
 ];

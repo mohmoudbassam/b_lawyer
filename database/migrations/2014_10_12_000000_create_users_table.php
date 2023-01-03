@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->text('fcm')->nullable();
+            $table->text('reset_password_code')->nullable();
+
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SendCodeRequest;
 use App\Http\Requests\SocialLoginRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\Code;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Kreait\Laravel\Firebase\Facades\Firebase;
@@ -38,7 +40,7 @@ class LoginController extends Controller
 //            $response->add('enabled', $user->enabled);
 //        }
 
-        $user->fcm=$request->fcm;
+        $user->fcm = $request->fcm;
         $user->save();
         $user->access_token = 'Bearer ' . $tokenResult->accessToken;
 
@@ -73,8 +75,8 @@ class LoginController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::query()->create($request->except('code'));
-      //  $user->enabled = 1;
-      //  $user->enabled_to = now()->addMonths(3)->toDateString();
+        //  $user->enabled = 1;
+        //  $user->enabled_to = now()->addMonths(3)->toDateString();
         $user->save();
         return api(true, 200, __('api.success'))
             ->get();
@@ -100,8 +102,8 @@ class LoginController extends Controller
 
         //$verifiedToken=  Firebase::auth()->parseToken($request['token']);
         // $parsedToken = (new Parser)->parse($bearerToken);
-       // $test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
-      //    dd($test);
+        // $test= Firebase::auth()->signInWithEmailAndPassword($request['email'], $request['password']);
+        //    dd($test);
 
         $verifiedToken = Firebase::auth()->verifyIdToken($request['token'], true);
 
@@ -132,7 +134,7 @@ class LoginController extends Controller
 
     public function guest_login()
     {
-        $user = User::query()->where('phone','010')->first();
+        $user = User::query()->where('phone', '010')->first();
         $tokenResult = $user->createToken('users', ['users']);
         $token = $tokenResult->token;
         $token->save();
@@ -142,5 +144,53 @@ class LoginController extends Controller
         $user->access_token = 'Bearer ' . $tokenResult->accessToken;
 
         return $response->get();
+    }
+
+    public function check_fcm()
+    {
+
+        if (is_null(request('fcm'))) {
+            return api(false, 400, __('api.fcm_not_found'))->get();
+        }
+        $user = User::where('fcm', request('fcm'))->first();
+        if ($user) {
+            return api(true, 200, __('api.success'))
+                ->add('user', new UserCollection($user))
+                ->get();
+        } else {
+            return api(false, 400, __('api.not_found'))
+                ->get();
+        }
+
+    }
+
+    public function reset_password(ResetPasswordRequest $request)
+    {
+        $user = User::where('phone', $request['phone'])->whereNotNull('phone')->first();
+        if (!$user) {
+            return api(false, 400, __('api.not_found'))
+                ->get();
+        }
+        $user->password = Hash::make($request['password']);
+        $user->save();
+        return api(true, 200, __('api.success'))
+            ->get();
+    }
+
+    public function generate_reset_password_code(Request $request)
+    {
+        $user = User::where('phone', $request['phone'])->whereNotNull('phone')->first();
+
+        if (!$user) {
+            return api(false, 400, __('api.not_found'))
+                ->get();
+        }
+        $code = rand(1000, 9999);
+        //   send_verifcation_code($request['phone'],$code);
+        $user->reset_password_code = $code;
+        $user->save();
+        return api(true, 200, __('api.success'))
+            ->get();
+
     }
 }
